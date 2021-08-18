@@ -1,8 +1,10 @@
 mod conmut;
 mod memtesting;
+mod transactionlog;
 
 use crate::conmut::*;
 use crate::memtesting::*;
+use crate::transactionlog::*;
 
 use std::mem;
 
