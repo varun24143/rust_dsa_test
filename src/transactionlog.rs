@@ -35,4 +35,3 @@ impl TransactionLog {
         }
     }
 }
-// adding a couple of lines to test
