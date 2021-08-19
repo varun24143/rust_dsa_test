@@ -4,10 +4,10 @@ use std::rc::Rc;
 
 type SingleLink = Option<Rc<RefCell<Node>>>;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Node {
-    value: String,
-    next: SingleLink,
+    pub value: String,
+    pub next: SingleLink,
 }
 
 pub struct TransactionLog {
@@ -15,6 +15,7 @@ pub struct TransactionLog {
     tail: SingleLink,
     length: u64,
 }
+
 
 impl Node {
     // A nice and short way of creating a new node
@@ -35,3 +36,5 @@ impl TransactionLog {
         }
     }
 }
+
+// Append entries at the end and remove entries from the front
