@@ -8,13 +8,19 @@ type SingleLink = Option<Rc<RefCell<Node>>>;
 pub struct Node {
     pub value: String,
     pub next: SingleLink,
+    pub prev: SingleLink, // This is to make the list to be double linked list, by allowing it to traverse back
 }
 
-pub struct TransactionLog {
+pub struct BetterTransactionLog { // Revised as per doubly linked list
     head: SingleLink,
     tail: SingleLink,
     length: u64,
 }
+
+pub struct ListIterator {
+    current: SingleLink,
+}
+
 
 
 impl Node {
@@ -23,15 +29,16 @@ impl Node {
         Rc::new(RefCell::new(Node {
             value: value,
             next: None,
+            prev: None,
         }))
     }
 
     
 }
 
-impl TransactionLog {
-    pub fn new_empty() -> TransactionLog {
-        TransactionLog {
+impl BetterTransactionLog {
+    pub fn new_empty() -> BetterTransactionLog {
+        BetterTransactionLog {
             head: None,
             tail: None,
             length: 0
@@ -63,6 +70,32 @@ impl TransactionLog {
         })
     }
 }
+
+impl ListIterator {
+    pub fn new(start_at: SingleLink) -> ListIterator {
+        ListIterator {
+            current: start_at,
+        }
+    }
+}
+
+impl Iterator for ListIterator {
+    type Item = String;
+    fn next(&mut self) -> Option<String> {
+        let current = &self.current;
+        let mut result = None;
+        self.current = match current {
+            Some(ref current) => {
+                let current = current.borrow();
+                result = Some(current.value.clone());
+                current.next.clone()
+            },
+            None => None
+        };
+        result
+    }
+}
+
 
 // Append entries at the end and remove entries from the front
 
