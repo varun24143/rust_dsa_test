@@ -99,3 +99,9 @@ impl Iterator for ListIterator {
 
 // Append entries at the end and remove entries from the front
 
+/* Reverse
+Using Rust's double ended Iterator.
+Implementing this trait will provide the ability to reverse an iterator in a standardized way by offering
+a next_back() function to get the previous value with the doubly linked list, that is only a matter of which
+property gets set to the current item!
+*/
