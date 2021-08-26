@@ -105,3 +105,19 @@ Implementing this trait will provide the ability to reverse an iterator in a sta
 a next_back() function to get the previous value with the doubly linked list, that is only a matter of which
 property gets set to the current item!
 */
+
+impl DoubleEndedIterator for ListIterator {
+    fn next_back(&mut self) -> Option<String> {
+        let current = &self.current;
+        let mut result = None;
+        self.current = match current {
+            Some(ref current) => {
+                let current = current.borrow();
+                result = Some(current.value.clone());
+                current.prev.clone()
+            },
+            None => None
+        };
+        result
+    }
+}
