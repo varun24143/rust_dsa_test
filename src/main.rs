@@ -2,12 +2,14 @@ mod conmut;
 mod memtesting;
 mod transactionlog;
 mod tests;
+mod skiplists;
 
 use crate::conmut::*;
 use crate::memtesting::*;
 use crate::transactionlog::*;
 use crate::tests::*;
 use std::mem;
+use crate::skiplists::*;
 
 struct Door {
     is_open: bool,
