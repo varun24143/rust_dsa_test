@@ -11,6 +11,7 @@ the timestamp offset and the actual content
 
 use std::cell::RefCell;
 use std::rc::Rc;
+use rand::random;
 
 pub type Link = Option<Rc<RefCell<Node>>>;
 
@@ -35,3 +36,35 @@ pub struct BestTransactionLog {
 }
 
 // Adding Data
+/*
+A skip list only works if the values are somehow comparable and follow an ascending order. Easy to understand
+skipping only makes sense if you know where you are going and you are moving ahead.
+*/
+
+impl BestTransactionLog {
+
+    pub fn new_empty(max_level: usize) -> BestTransactionLog {
+        BestTransactionLog {
+            max_level: max_level,
+            head: None,
+            length: 0,
+            tails: vec![None; max_level+1],
+        }
+    }
+
+    pub fn get_level(&self) -> usize {
+        let mut n = 0;
+        while rand::random::<bool>() && n<self.max_level {
+            n += 1;
+        }
+        n
+    }
+    
+    pub fn append(&mut self, offset: u64, value: String) {
+        let level = 1 + if self.head.is_none() {
+            self.max_level
+        } else {
+            self.get_level() // determine the levels by coin flip
+        };
+    }
+}
