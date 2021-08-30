@@ -22,6 +22,15 @@ pub struct Node {
     pub command: String,
 }
 
+impl Node {
+    fn new(links: Vec<Link>, offset: u64, command: String) -> Rc<RefCell<Node>> {
+        Rc::new(RefCell::new(Node {
+            next: links,
+            offset: offset,
+            command: command,
+        }))
+    }
+}
 /*
 Now we will implement a parameter that will reflect the size of the list and the highest level only contains
 2 or three nodes at most
@@ -62,9 +71,26 @@ impl BestTransactionLog {
     
     pub fn append(&mut self, offset: u64, value: String) {
         let level = 1 + if self.head.is_none() {
-            self.max_level
+            self.max_level // use the maximum level for the first node
         } else {
             self.get_level() // determine the levels by coin flip
         };
+        let new = Node::new(vec![None; level], offset, value);
+        
+        // update the tails for each level
+        for i in 0..level {
+            if let Some(old) = self.tails[i].take() {
+                let next = &mut old.borrow_mut().next;
+                next[i] = Some(new.clone());
+            }
+            self.tails[i] = Some(new.clone());
+        }
+        // this is the first node in the list
+        if self.head.is_none() {
+            self.head = Some(new.clone());
+        }
+        self.length += 1;
     }
+
+    
 }
