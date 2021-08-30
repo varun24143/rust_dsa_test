@@ -1,12 +1,15 @@
 mod conmut;
 mod memtesting;
 mod transactionlog;
+mod tests;
+mod skiplists;
 
 use crate::conmut::*;
 use crate::memtesting::*;
 use crate::transactionlog::*;
-
+use crate::tests::*;
 use std::mem;
+use crate::skiplists::*;
 
 struct Door {
     is_open: bool,
@@ -30,16 +33,16 @@ impl Openable for Door {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn open_door() {
-        let mut door = Door::new(false);
-        door.open();
-        assert!(door.is_open);
-    }
-}
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
+// //     #[test]
+//     fn open_door() {
+//         let mut door = Door::new(false);
+//         door.open();
+//         assert!(door.is_open);
+//     }
+// }
 
 use std::rc::Rc;
 
@@ -72,7 +75,7 @@ fn main() {
     println!("{:#?}", read_str);
     conmut::channels();
     conmut::shared_state();
-    println!("{:?}",add(5,4));
+    //println!("{:?}",add(5,4));
     // Testing memory assigned for the struct
     println!("{:?}",(mem::size_of::<MyStruct>(), 3*mem::size_of::<u8>()));
     println!("{:?}",(mem::size_of::<[MyStruct; 2]>(), 3*mem::size_of::<u8>()*2));
