@@ -130,6 +130,5 @@ impl BestTransactionLog {
         }
         None => None,  
     }
-    }
-    
+    }    
 }
